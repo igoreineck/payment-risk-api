@@ -1,18 +1,18 @@
 version: "3.5"
 
 services:
-  db:
+  database:
     image: postgres:latest
-    container_name: db
+    container_name: database
     restart: always
     environment:
-      - POSTGRES_USER=rinha
-      - POSTGRES_PASSWORD=rinha123
+      - POSTGRES_USER=payment_risk
+      - POSTGRES_PASSWORD=payment_risk123
     ports:
       - 5432:5432
     volumes:
-      - db:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
 
 volumes:
-  db:
+  database:
     driver: local
