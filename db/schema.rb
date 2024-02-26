@@ -24,19 +24,17 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_25_222615) do
     t.index ["user_id"], name: "index_chargeback_histories_on_user_id"
   end
 
-  create_table "transaction_histories", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.integer "transaction_id", null: false
+  create_table "transaction_histories", force: :cascade do |t|
     t.integer "merchant_id", null: false
     t.integer "user_id", null: false
     t.string "card_number", limit: 16, null: false
     t.datetime "date", null: false
     t.decimal "amount", precision: 7, scale: 2, default: "0.0", null: false
     t.integer "device_id"
-    t.string "status", null: false
+    t.string "status", default: "approved", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["merchant_id"], name: "index_transaction_histories_on_merchant_id"
-    t.index ["transaction_id"], name: "index_transaction_histories_on_transaction_id", unique: true
     t.index ["user_id"], name: "index_transaction_histories_on_user_id"
   end
 

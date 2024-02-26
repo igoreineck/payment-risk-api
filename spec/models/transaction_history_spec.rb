@@ -95,6 +95,32 @@ RSpec.describe 'TransactionHistory', type: :model do
     end
   end
 
+  context 'when the user recently purchased with the same merchant' do
+    let(:merchant_id) { 1 }
+    let(:user_id) { 1 }
+    let!(:previous_transaction) do
+      FactoryBot.create(
+        :transaction_history,
+        merchant_id:,
+        user_id:,
+        date: 3.minutes.ago
+      )
+    end
+
+    let!(:transaction) do
+      FactoryBot.create(
+        :transaction_history,
+        merchant_id:,
+        user_id:,
+        date: Time.zone.now
+      )
+    end
+
+    it 'returns the transaction status as denied' do
+      expect(transaction.status).to eq('denied')
+    end
+  end
+
   context 'when the transaction amount is greater than allowed' do
     let(:transaction) do
       FactoryBot.create(
