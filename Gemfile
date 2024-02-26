@@ -36,9 +36,10 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 group :development, :test do
+  gem 'debug', platforms: %i[mri windows]
   gem 'dotenv'
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem 'factory_bot_rails'
+  gem 'rspec-rails', '~> 6.1.0'
 end
 
 group :development do

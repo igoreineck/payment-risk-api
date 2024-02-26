@@ -1,24 +1,30 @@
 # frozen_string_literal: true
 
 class TransactionHistory < ApplicationRecord
-  validates :card_number, presence: true, length: { is: 16 }
-  validates :status, inclusion: { in: %w[approved denied] }
-  validates :amount, numericality: { greater_than: 99_999.99 }
+  CHARGEBACK_TIME_TRESHOLD = 1.week
 
-  before_commit :transaction_invalid?
+  enum :status, %i[approved denied], preffix: true
+
+  validates :card_number, presence: true, length: { is: 16 }
+  validates :amount, numericality: { less_than_or_equal_to: 99_999.99 }
+
+  before_commit :validate_transaction
 
   private
 
-  def transaction_invalid?
-    return true if chargeback.present? && (Time.now - chargeback.chargeback_datetime) <= 1.day
+  def validate_transaction
+    self.status = transaction_invalid? ? :denied : :approved
+  end
 
-    false
+  def transaction_invalid?
+    chargeback.present? && (Time.now - chargeback.chargeback_datetime) <= CHARGEBACK_TIME_TRESHOLD
   end
 
   def chargeback
     @chargeback ||= ChargebackHistory
-                    .where(:merchant_id, :user_id)
-                    .order_by(chargeback_datetime: :desc)
+                    .where(merchant_id:, user_id:)
+                    .order(chargeback_datetime: :desc)
                     .limit(1)
+                    .first
   end
 end

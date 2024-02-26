@@ -1,26 +1,13 @@
 # frozen_string_literal: true
 
 class TransactionController < ApplicationController
-  # {
-  #   "transaction_id" : 2342357,
-  #   "merchant_id" : 29744,
-  #   "user_id" : 97051,
-  #   "card_number" : "434505******9116",
-  #   "transaction_date" : "2019-11-31T23:16:32.812632",
-  #   "transaction_amount" : 373,
-  #   "device_id" : 285475
-  # }
   def create
     @transaction_history = build_creation
 
-    if @transaction_history.valid?
-      @transaction_history.tap { |th| th.status = 'approved' }.save
-
+    if @transaction_history.save
       render json: build_response, status: :created
     else
-      @transaction_history.tap { |th| th.status = 'denied' }.save
-
-      render json: build_response, status: :unprocessable_entity # error??
+      render json: {}, status: :unprocessable_entity # error??
     end
   end
 
