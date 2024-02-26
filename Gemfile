@@ -39,6 +39,7 @@ group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'dotenv'
   gem 'factory_bot_rails'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.1.0'
 end
 

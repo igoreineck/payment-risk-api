@@ -7,7 +7,17 @@ class TransactionController < ApplicationController
     if @transaction_history.save
       render json: build_response, status: :created
     else
-      render json: {}, status: :unprocessable_entity # error??
+      render json: {}, status: :unprocessable_entity
+    end
+  end
+
+  def show
+    @transaction_history = TransactionHistory.find_by(id: params[:id])
+
+    if @transaction_history
+      render json: @transaction_history, status: :ok
+    else
+      render json: {}, status: :not_found
     end
   end
 
@@ -15,13 +25,12 @@ class TransactionController < ApplicationController
 
   def permitted_params
     params.permit(
-      %i[transaction_id merchant_id user_id card_number transaction_date transaction_amount device_id]
+      %i[id merchant_id user_id card_number transaction_date transaction_amount device_id]
     )
   end
 
   def build_creation
     TransactionHistory.new(
-      transaction_id: permitted_params[:transaction_id],
       merchant_id: permitted_params[:merchant_id],
       user_id: permitted_params[:user_id],
       card_number: permitted_params[:card_number],
@@ -33,7 +42,7 @@ class TransactionController < ApplicationController
 
   def build_response
     {
-      transaction_id: @transaction_history.transaction_id,
+      transaction_id: @transaction_history.id,
       recommendation: @transaction_history.status
     }
   end
