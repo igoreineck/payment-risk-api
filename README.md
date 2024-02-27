@@ -35,6 +35,11 @@ cp development.env.example .env
 docker compose up -d
 ```
 
+**Setup database**
+```bash
+bundle exec rails db:create db:migrate --trace
+```
+
 **Server startup** (listening on port 3000)
 ```bash
 bundle exec rails server
