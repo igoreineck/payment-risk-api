@@ -52,7 +52,7 @@ ruby parser.rb
 
 ## API structure
 
-- POST '/api/transactions'
+- POST `/api/transactions`
 
 ```JSON
 // Example payload
@@ -72,7 +72,7 @@ ruby parser.rb
 }
 ```
 
-- GET '/api/transactions/:id'
+- GET `/api/transactions/:id`
 
 ```JSON
 // Expected example success response -> id: 1
@@ -88,3 +88,11 @@ ruby parser.rb
 	"updated_at": "2024-02-26T23:56:30-03:00",
 }
 ```
+
+### Chargebacks logic
+
+Notes to consider when sending requests to the API.
+- In case a purchase was made recently (less than 10 minutes), matching with these same conditions (merchant_id, user_id, card_number). The transaction will be denied and will generate a **chargeback** for the user.
+- If a chargeback was previously generated and its date is less than a week, the transaction will be denied.
+- Card numbers must have 16 digits, otherwise the transaction will fail.
+- These criterias are just an example to simulate similar conditions in the real world.
