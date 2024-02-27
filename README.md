@@ -84,6 +84,7 @@ ruby parser.rb
   "transaction_date": "2020-11-31T23:16:32.812632",
   "transaction_amount": 373,
   "device_id": 285475,
+  "status": "approved",
   "created_at": "2024-02-26T23:56:30-03:00",
   "updated_at": "2024-02-26T23:56:30-03:00"
 }
