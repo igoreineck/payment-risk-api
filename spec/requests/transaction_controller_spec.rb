@@ -82,7 +82,7 @@ RSpec.describe 'TransactionController', type: :request do
       end
 
       it 'returns an empty JSON body' do
-        expect(response.body).to eq('{}')
+        expect(response.body).to eq('{"message":["Card number is the wrong length (should be 16 characters)"]}')
       end
     end
   end

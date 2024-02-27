@@ -7,7 +7,7 @@ class TransactionController < ApplicationController
     if @transaction_history.save
       render json: build_response, status: :created
     else
-      render json: {}, status: :unprocessable_entity
+      render json: { message: @transaction_history.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
