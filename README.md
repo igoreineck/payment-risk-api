@@ -57,18 +57,18 @@ ruby parser.rb
 ```JSON
 // Example payload
 {
-  "merchant_id" : 1,
-	"user_id" : 1,
-	"card_number" : "434505******9116",
-	"transaction_date" : "2020-11-31T23:16:32.812632",
-	"transaction_amount" : 373,
-	"device_id" : 285475
+  "merchant_id": 1,
+  "user_id": 1,
+  "card_number": "434505******9116",
+  "transaction_date": "2020-11-31T23:16:32.812632",
+  "transaction_amount": 373,
+  "device_id": 285475
 }
 
 // Expected example success response
 {
-	"transaction_id": 299,
-	"recommendation": "denied"
+  "transaction_id": 299,
+  "recommendation": "denied"
 }
 ```
 
@@ -77,15 +77,15 @@ ruby parser.rb
 ```JSON
 // Expected example success response -> id: 1
 {
-	"transaction_id": 1,
-	"merchant_id" : 1,
-	"user_id" : 1,
-	"card_number" : "434505******9116",
-	"transaction_date" : "2020-11-31T23:16:32.812632",
-	"transaction_amount" : 373,
-	"device_id" : 285475,
-	"created_at": "2024-02-26T23:56:30-03:00",
-	"updated_at": "2024-02-26T23:56:30-03:00",
+  "transaction_id": 1,
+  "merchant_id": 1,
+  "user_id": 1,
+  "card_number": "434505******9116",
+  "transaction_date": "2020-11-31T23:16:32.812632",
+  "transaction_amount": 373,
+  "device_id": 285475,
+  "created_at": "2024-02-26T23:56:30-03:00",
+  "updated_at": "2024-02-26T23:56:30-03:00"
 }
 ```
 
