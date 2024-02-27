@@ -1,7 +1,7 @@
 ## Understanding the industry
 
 1. Explain the money flow and the information flow in the acquirer market and the role of the main players.
-	1. The payment flow in a transaction works like this: the cardholder (or the customer) gives the card information (it can be physically using a payment machine or using a web platform). The acquirer receives these information and send them to the entity that represents the card flag. This entity process the request and turn back these information to the bank. The bank approves or not the request and start the transaction back to finish the payment request.`
+	1. The payment flow in a transaction works like this: the cardholder (or the customer) gives the card information (it can be physically using a payment machine or using a web platform). The acquirer receives these information and send them to the entity that represents the card flag. This entity process the request and turn back these information to the bank. The bank approves or not the request and start the transaction back to finish the payment request.
 
 2. Explain the difference between acquirer, sub-acquirer and payment gateway and how the flow explained in question 1 changes for these players.
 	1. **Acquirer**: An acquirer (also called a creditor) is a company that specializes in processing payments, meaning that it processes credit or debit card payments on behalf of a merchant. Through its network of accredited partners (or acquiring network), it enables a store to offer various payment conditions to its customers. When everything is in order and a purchase is authorized by the other players within the purchase flow, the acquirer is responsible for transferring the values (which the issuing bank receives from the customer) to the account of your store.
@@ -17,7 +17,7 @@
 	2. A **cancellation** refers to the act of voiding a transaction before it is completed or finalized. And unlike chargebacks, cancellations tipically don't involve dispute resolution processes with card issuers, as they are usually handled directly between the buyer and the seller.
 
 ### Points to consider about the CSV file (and reflect)
-1. The CSV file was generated from a query with **transaction_date** **DESC**. So the order should be considered
+1. The CSV file was generated from a query with **transaction_date** **DESC**. So the order should not be considered
 2. Purchases for the same **merchant_id**, **user_id** and **card_number** with different values in a small interval of time, might have a chance to be fraudulent (representing many tries in a row)
 3. Requests without **device_id** might represent a device not registered (or not recognized). (Should they be denied?)
 4. Purchases made at the same **device_id** for different merchants in a small interval of time, using the same **card_number** might be fraudulent. (Should they be denied?)  
@@ -52,7 +52,7 @@ ruby parser.rb
 
 ## API structure
 
-- POST '/api/transactions'
+- POST `/api/transactions`
 
 ```JSON
 // Example payload
@@ -72,7 +72,7 @@ ruby parser.rb
 }
 ```
 
-- GET '/api/transactions/:id'
+- GET `/api/transactions/:id`
 
 ```JSON
 // Expected example success response -> id: 1
@@ -88,3 +88,11 @@ ruby parser.rb
 	"updated_at": "2024-02-26T23:56:30-03:00",
 }
 ```
+
+### Chargebacks logic
+
+Notes to consider when sending requests to the API.
+- In case a purchase was made recently (less than 10 minutes), matching with these same conditions (merchant_id, user_id, card_number). The transaction will be denied and will generate a **chargeback** for the user.
+- If a chargeback was previously generated and its date is less than a week, the transaction will be denied.
+- Card numbers must have 16 digits, otherwise the transaction will fail.
+- These criterias are just an example to simulate similar conditions in the real world.
